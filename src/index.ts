@@ -10,6 +10,7 @@ const streamers: StreamerInfo = {
     юля: { nickName: "l_julinka_l", delay: 0 },
     лера: { nickName: "valer1ka", delay: 1000 },
     я: { nickName: "iamgastank", delay: 0 },
+    карина: { nickName: "samuraisooab", delay: 0 },
     all: { nickName: "", delay: 1000 },
 };
 

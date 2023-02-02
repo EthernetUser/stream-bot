@@ -25,6 +25,11 @@ export const commands: Commands = {
             currentStreamer: client.config.streamers["all"].nickName,
         });
     },
+    "!карина": (client: BaseConfigurable) => {
+        client.changeConfig({
+            currentStreamer: client.config.streamers["карина"].nickName,
+        });
+    },
     "!автоответы": (client: BaseConfigurable) => {
         client.changeConfig({
             autoAnswersMode: client.config.autoAnswersMode ? false : true,
