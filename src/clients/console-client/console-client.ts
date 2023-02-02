@@ -39,7 +39,6 @@ export class ConsoleClient extends BaseConfig {
 
     private consoleMessageHandler(message: string) {
         const isCommand = this.executeCommandHandler(message);
-        console.log(1)
         if (isCommand) {
         } else if (!this.config.currentStreamer) {
             Object.values(this.config.streamers).forEach((streamer) => {

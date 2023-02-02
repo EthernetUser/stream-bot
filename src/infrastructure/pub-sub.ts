@@ -22,7 +22,6 @@ export class PubSub implements IPubSub {
         if (!channel || !channel.length) {
             return;
         }
-        console.log("publish " + message);
         channel.forEach((listener) => listener(message));
     }
 }
