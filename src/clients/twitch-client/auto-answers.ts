@@ -4,7 +4,7 @@ const nicknames = {
     me: "iamgastank",
     коля: "den_nagany",
     марк: "s_meisik_s",
-    пливетик: "pliviitiek"
+    пливетик: "pliviitiek",
 };
 
 function randomInteger(minimum: number, maximum: number) {
@@ -80,6 +80,12 @@ const randomRole = () => {
     return roles[randNum];
 };
 
+const answerToLoh: { [k: string]: (() => string) | undefined } = {
+    [nicknames.коля]: () => `@${nicknames.коля} коляньчик, сам ты лох мелкий)`,
+    [nicknames.марк]: () => `@${nicknames.марк} марик) ты ж сам лох)`,
+    [nicknames.пливетик]: () => `@${nicknames.пливетик} сама мелкая лохушка`,
+};
+
 export const autoAnswers: {
     [k: string]: (opitons: Options) => string | Promise<string>;
 } = {
@@ -90,16 +96,12 @@ export const autoAnswers: {
     "юля лох": (options) => `@${options.tags["display-name"]} согласен`,
     "ира лох": (options) => `@${options.tags["display-name"]} тут не поспоришь`,
     "саня лох": (options) => {
-        switch (options.tags["display-name"]) {
-            case nicknames.коля:
-                return `@${options.tags["display-name"]} коляньчик, сам ты лох мелкий)`;
-            case nicknames.марк:
-                return `@${options.tags["display-name"]} марик) ты ж сам лох)`;
-            case nicknames.пливетик:
-                return `@${options.tags["display-name"]} сама мелкая лохушка`;
-            default:
-                return `@${options.tags["display-name"]} сам лох`;
+        const answer = answerToLoh[options.tags["display-name"] || ""];
+
+        if (answer) {
+            return answer();
         }
+        return `@${options.tags["display-name"]} сам лох`;
     },
     "лера лох": (options) => `@${options.tags["display-name"]} соглы`,
     "марк лох": (options) => `@${options.tags["display-name"]} соглы`,
