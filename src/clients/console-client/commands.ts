@@ -1,8 +1,4 @@
-import { BaseConfigurable } from "../base-config";
-
-export interface Commands {
-    [k: string]: (client: BaseConfigurable) => void | undefined;
-}
+import { BaseConfigurable, Commands } from "../../types";
 
 export const commands: Commands = {
     "!юля": (client: BaseConfigurable) => {

@@ -1,24 +1,4 @@
-export interface StreamerInfo {
-    [k: string]: {
-        nickName: string;
-        delay: number;
-    };
-}
-
-export interface Config {
-    autoAnswersMode: boolean;
-    currentStreamer: string;
-    streamers: StreamerInfo;
-    tmiConfig: {
-        username: string;
-        password: string;
-    };
-}
-
-export interface BaseConfigurable {
-    config: Config;
-    changeConfig: (newConfig: Partial<Config>) => void;
-}
+import { BaseConfigurable, Config } from "../types";
 
 export class BaseConfig implements BaseConfigurable {
     public config: Config;

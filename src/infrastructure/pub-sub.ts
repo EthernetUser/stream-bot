@@ -1,7 +1,4 @@
-export interface IPubSub {
-    publish: (channelName: string, message: any) => void,
-    subscribe: (channelName: string, listener: (message: any) => Promise<any> | any) => void
-};
+import { IPubSub } from "../types";
 
 export class PubSub implements IPubSub {
     private static channels: { [channel: string]: ((message: any) => any)[] } =

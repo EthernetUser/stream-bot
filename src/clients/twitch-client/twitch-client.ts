@@ -1,8 +1,7 @@
 import tmi from "tmi.js";
 
-import { Options } from "./auto-answers";
-import { BaseConfig, Config } from "../base-config";
-import { IPubSub } from "../../infrastructure/pub-sub";
+import { BaseConfig } from "../base-config";
+import { Config, IPubSub, Options } from "../../types";
 
 export class TwitchClient extends BaseConfig {
     public tmi: tmi.Client;

@@ -1,4 +1,4 @@
-import { Userstate } from "tmi.js";
+import { Options } from "../../types";
 
 const nicknames = {
     me: "iamgastank",
@@ -19,13 +19,6 @@ function randomInteger(minimum: number, maximum: number) {
 
     return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
 }
-
-export type Options = {
-    tags: Userstate;
-    channel: string;
-    self: boolean;
-    message: string;
-};
 
 const randomMark = () => {
     const names = [

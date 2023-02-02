@@ -1,10 +1,10 @@
-import jsonCredentionals from "./config";
-import { autoAnswers } from "./clients/twitch-client/auto-answers";
-import { Config, StreamerInfo } from "./clients/base-config";
-import { ConsoleClient } from "./clients/console-client/console-client";
-import { PubSub } from "./infrastructure/pub-sub";
-import { TwitchClient } from "./clients/twitch-client/twitch-client";
 import { commands } from "./clients/console-client/commands";
+import { ConsoleClient } from "./clients/console-client/console-client";
+import { autoAnswers } from "./clients/twitch-client/auto-answers";
+import { TwitchClient } from "./clients/twitch-client/twitch-client";
+import jsonCredentionals from "./config";
+import { PubSub } from "./infrastructure/pub-sub";
+import { Config, StreamerInfo } from "./types";
 
 const streamers: StreamerInfo = {
     юля: { nickName: "l_julinka_l", delay: 0 },

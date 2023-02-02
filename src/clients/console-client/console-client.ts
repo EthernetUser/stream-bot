@@ -1,8 +1,7 @@
 import ReadLine from "readline";
 
-import { BaseConfig, Config } from "../base-config";
-import { IPubSub } from "../../infrastructure/pub-sub";
-import { Commands, commands } from "./commands";
+import { Commands, Config, IPubSub } from "../../types";
+import { BaseConfig } from "../base-config";
 
 export class ConsoleClient extends BaseConfig {
     private readline: ReadLine.Interface;
@@ -26,7 +25,7 @@ export class ConsoleClient extends BaseConfig {
         if (!message.startsWith("!")) {
             return false;
         }
-        
+
         const command = this.commands[message];
 
         if (command) {
