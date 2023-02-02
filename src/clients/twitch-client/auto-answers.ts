@@ -106,6 +106,8 @@ export const autoAnswers: {
     "лера лох": (options) => `@${options.tags["display-name"]} соглы`,
     "марк лох": (options) => `@${options.tags["display-name"]} соглы`,
     "коля лох": (options) => `@${options.tags["display-name"]} соглы`,
+    "сколько см у юли": (opitons) => `@${opitons.tags["display-name"]} у юли ${randomInteger(3, 40)} см`,
+    "сколько у меня см": (options) => `@${options.tags["display-name"]} у тебя ${randomInteger(0, 40)} см`,
     "привет саня": () => "прив",
     "саня привет": () => "прив",
     "дота чи не": (opitons) =>
