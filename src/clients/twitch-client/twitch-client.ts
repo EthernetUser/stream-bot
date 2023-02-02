@@ -75,7 +75,6 @@ export class TwitchClient extends BaseConfig {
     }
 
     public async say({ channel, message }: { channel: string; message: any }) {
-        console.log("say " + message);
         this.tmi.say(channel, message);
     }
 
