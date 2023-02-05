@@ -8,7 +8,15 @@ export class ConsoleClient extends BaseConfig {
     private pubSub: IPubSub;
     private commands: Commands;
 
-    constructor(config: Config, pubSub: IPubSub, commands: Commands) {
+    constructor({
+        config,
+        pubSub,
+        commands,
+    }: {
+        commands: Commands;
+        pubSub: IPubSub;
+        config: Config;
+    }) {
         super(config);
         this.readline = ReadLine.createInterface({
             input: process.stdin,

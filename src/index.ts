@@ -25,9 +25,17 @@ const baseConfig: Config = {
 
 const pubSub = new PubSub();
 
-const consoleClient = new ConsoleClient(baseConfig, pubSub, commands);
+const consoleClient = new ConsoleClient({
+    config: baseConfig,
+    pubSub,
+    commands,
+});
 
-const twitchClient = new TwitchClient(baseConfig, autoAnswers, pubSub);
+const twitchClient = new TwitchClient({
+    config: baseConfig,
+    autoAnswers,
+    pubSub,
+});
 
 const start = async () => {
     console.log("start twitch client");

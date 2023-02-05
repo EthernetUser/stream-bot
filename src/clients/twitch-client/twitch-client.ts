@@ -1,7 +1,7 @@
 import tmi from "tmi.js";
 
-import { BaseConfig } from "../base-config";
 import { Config, IPubSub, Options } from "../../types";
+import { BaseConfig } from "../base-config";
 
 export class TwitchClient extends BaseConfig {
     public tmi: tmi.Client;
@@ -10,13 +10,17 @@ export class TwitchClient extends BaseConfig {
     };
     private pubSub: IPubSub;
 
-    constructor(
-        config: Config,
+    constructor({
+        config,
+        autoAnswers,
+        pubSub,
+    }: {
+        config: Config;
         autoAnswers: {
             [k: string]: (options: Options) => string | Promise<string>;
-        },
-        pubSub: IPubSub
-    ) {
+        };
+        pubSub: IPubSub;
+    }) {
         super(config);
         this.tmi = new tmi.Client({
             connection: {
