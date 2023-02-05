@@ -5,8 +5,8 @@ dotenv.config();
 const { env } = process;
 
 export default {
-    tmiCrendentials: {
-        username: env.TMI_USERNAME || "",
-        password: env.TMI_PASSWORD || "",
-    },
+  tmiCrendentials: {
+    username: env.TMI_USERNAME || "",
+    password: env.TMI_PASSWORD || "",
+  },
 };

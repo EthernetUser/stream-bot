@@ -7,46 +7,46 @@ import { PubSub } from "./infrastructure/pub-sub";
 import { Config, StreamerInfo } from "./types";
 
 const streamers: StreamerInfo = {
-    юля: { nickName: "l_julinka_l", delay: 0 },
-    лера: { nickName: "valer1ka", delay: 1000 },
-    я: { nickName: "iamgastank", delay: 0 },
-    карина: { nickName: "samuraisooab", delay: 0 },
-    all: { nickName: "", delay: 1000 },
+  юля: { nickName: "l_julinka_l", delay: 0 },
+  лера: { nickName: "valer1ka", delay: 1000 },
+  я: { nickName: "iamgastank", delay: 0 },
+  карина: { nickName: "samuraisooab", delay: 0 },
+  all: { nickName: "", delay: 1000 },
 };
 
 const baseConfig: Config = {
-    autoAnswersMode: true,
-    currentStreamer: "",
-    streamers,
-    tmiConfig: {
-        ...jsonCredentionals.tmiCrendentials,
-    },
+  autoAnswersMode: true,
+  currentStreamer: "",
+  streamers,
+  tmiConfig: {
+    ...jsonCredentionals.tmiCrendentials,
+  },
 };
 
 const pubSub = new PubSub();
 
 const consoleClient = new ConsoleClient({
-    config: baseConfig,
-    pubSub,
-    commands,
+  config: baseConfig,
+  pubSub,
+  commands,
 });
 
 const twitchClient = new TwitchClient({
-    config: baseConfig,
-    autoAnswers,
-    pubSub,
+  config: baseConfig,
+  autoAnswers,
+  pubSub,
 });
 
 const start = async () => {
-    console.log("start twitch client");
+  console.log("start twitch client");
 
-    await twitchClient.connect();
+  await twitchClient.connect();
 
-    twitchClient.onMessage();
+  twitchClient.onMessage();
 
-    console.log("start console client");
+  console.log("start console client");
 
-    consoleClient.onLine();
+  consoleClient.onLine();
 };
 
 start();
