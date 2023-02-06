@@ -123,6 +123,7 @@ export const autoAnswers: {
   "кто такая юля": (options) => `@${options.tags["display-name"]} она ${randomJulia()}`,
   "кто такой коля": (options) => `@${options.tags["display-name"]} он ${randomKolya()}`,
   "роль юли": (options) => `@${options.tags["display-name"]} она ${randomRole()}`,
+  "кто такой пливетик": (options) => `@${options.tags['display-name']} он гей`, 
   "моя роль": (options) => {
     const role = options.tags["display-name"] === nicknames.me ? "красавчик" : randomRole();
     return `@${options.tags["display-name"]} ты ${role}`;
