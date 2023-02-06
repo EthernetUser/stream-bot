@@ -34,6 +34,7 @@ const randomMark = () => {
     "маленькая бэйба",
     "знает кунг-фу",
     "нереальный типок, написал нейронку на ифах",
+    "гей",
   ];
   const randNum = randomInteger(0, names.length - 1);
   return names[randNum];
