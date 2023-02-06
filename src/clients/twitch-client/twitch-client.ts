@@ -61,8 +61,8 @@ export class TwitchClient extends BaseConfig {
     if (answer && this.config.autoAnswersMode) {
       const currentAnswer = await answer(options);
       console.log(channel);
-      const delay = Object.values(this.config.streamers).find(streamer => streamer.nickName === channel.slice(1))?.delay;
-      await this.sleep(delay || 1000);
+      const delay = Object.values(this.config.streamers).find((streamer) => streamer.nickName === channel.slice(1))?.delay || 1000;
+      await this.sleep(delay);
       await this.tmi.say(channel, currentAnswer);
       console.log(`[channel: ${channel}] @${tags["display-name"]}: (auto) ${currentAnswer}`);
     }
