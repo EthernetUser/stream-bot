@@ -20,6 +20,16 @@ function randomInteger(minimum: number, maximum: number) {
   return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
 }
 
+const randomKolya = () => {
+  const names = [
+    "лох",
+    "насосал на подписку",
+    "насосал на модерку",
+  ];
+  const randNum = randomInteger(0, names.length - 1);
+  return names[randNum];
+};
+
 const randomMark = () => {
   const names = [
     "лох",
@@ -111,7 +121,7 @@ export const autoAnswers: {
   пи: (opitons) => `@${opitons.tags["display-name"]} door`,
   "кто такой саня": (opitons) => `@${opitons.tags["display-name"]} он красавчик`,
   "кто такая юля": (options) => `@${options.tags["display-name"]} она ${randomJulia()}`,
-  "кто такой коля": (options) => `@${options.tags["display-name"]} он лох`,
+  "кто такой коля": (options) => `@${options.tags["display-name"]} он ${randomKolya()}`,
   "роль юли": (options) => `@${options.tags["display-name"]} она ${randomRole()}`,
   "моя роль": (options) => {
     const role = options.tags["display-name"] === nicknames.me ? "красавчик" : randomRole();
