@@ -63,6 +63,7 @@ const randomJulia = () => {
     "легко верит всяким ноунейм фирмам по ремонту пк",
     "юля 20 фпс апекс",
     "фантомка 0 10",
+    "дает крест на себя",
   ];
   const randNum = randomInteger(0, names.length - 1);
   return names[randNum];
