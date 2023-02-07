@@ -1,20 +1,20 @@
 import { IPubSub } from "../types";
 
 export class PubSub implements IPubSub {
-  private static channels: { [channel: string]: ((message: any) => any)[] } = {};
+  private static events: { [event: string]: { listener: (message: any) => any; uuid: string }[] } = {};
 
-  public subscribe(channelName: string, listener: (message: any) => Promise<any> | any) {
-    if (!PubSub.channels[channelName]) {
-      PubSub.channels[channelName] = [];
+  public subscribe(eventName: string, listener: (message: any) => Promise<any> | any, uuid: string) {
+    if (!PubSub.events[eventName]) {
+      PubSub.events[eventName] = [];
     }
-    PubSub.channels[channelName].push(listener);
+    PubSub.events[eventName].push({ listener, uuid });
   }
 
-  public publish(channelName: string, message: any) {
-    const channel = PubSub.channels[channelName];
-    if (!channel || !channel.length) {
+  public publish(eventName: string, message: any, uuid: string) {
+    const event = PubSub.events[eventName];
+    if (!event || !event.length) {
       return;
     }
-    channel.forEach((listener) => listener(message));
+    event.filter((event) => event.uuid !== uuid).forEach((event) => event.listener(message));
   }
 }

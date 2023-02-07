@@ -1,14 +1,14 @@
 import ReadLine from "readline";
 
-import { Commands, Config, IPubSub } from "../../types";
+import { ICommands, IConfig, IPubSub } from "../../types";
 import { BaseConfig } from "../base-config";
 
 export class ConsoleClient extends BaseConfig {
   private readline: ReadLine.Interface;
   private pubSub: IPubSub;
-  private commands: Commands;
+  private commands: ICommands;
 
-  constructor({ config, pubSub, commands }: { commands: Commands; pubSub: IPubSub; config: Config }) {
+  constructor({ config, pubSub, commands }: { commands: ICommands; pubSub: IPubSub; config: IConfig }) {
     super(config);
     this.readline = ReadLine.createInterface({
       input: process.stdin,
@@ -18,11 +18,12 @@ export class ConsoleClient extends BaseConfig {
     this.pubSub = pubSub;
     this.commands = commands;
 
-    this.pubSub.subscribe("config/change", this.changeConfig.bind(this));
+    this.pubSub.subscribe(this.getEventName(this.config.events.configChange), this.changeConfig.bind(this), this.uuid);
   }
 
   private executeCommandHandler(message: string) {
-    if (!message.startsWith("!")) {
+    const changeConfigEventName = this.getEventName(this.config.events.configChange);
+    if (message[0] !== "!") {
       return false;
     }
 
@@ -30,28 +31,39 @@ export class ConsoleClient extends BaseConfig {
 
     if (command) {
       command(this);
-      this.pubSub.publish("config/change", { ...this.config });
+      this.pubSub.publish(changeConfigEventName, { ...this.config }, this.uuid);
     }
 
     return true;
   }
 
   private consoleMessageHandler(message: string) {
+    const sendMessageEventName = this.getEventName(this.config.events.twitchSendMessage);
     const isCommand = this.executeCommandHandler(message);
+
     if (isCommand) {
     } else if (!this.config.currentStreamer) {
       Object.values(this.config.streamers).forEach((streamer) => {
-        this.pubSub.publish("twitch/sendMessage", {
-          channel: streamer.nickName,
-          message,
-        });
+        this.pubSub.publish(
+          sendMessageEventName,
+          {
+            channel: streamer.nickName,
+            message,
+          },
+          this.uuid
+        );
       });
     } else {
-      this.pubSub.publish("twitch/sendMessage", {
-        channel: this.config.currentStreamer,
-        message,
-      });
+      this.pubSub.publish(
+        sendMessageEventName,
+        {
+          channel: this.config.currentStreamer,
+          message,
+        },
+        this.uuid
+      );
     }
+
     this.readline.prompt();
   }
 

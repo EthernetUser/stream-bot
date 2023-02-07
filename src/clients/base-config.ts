@@ -1,14 +1,20 @@
-import { BaseConfigurable, Config } from "../types";
+import { v4 as uuid } from "uuid";
+import { IBaseConfigurable, IConfig } from "../types";
 
-export class BaseConfig implements BaseConfigurable {
-  public config: Config;
-  private isChanged: boolean = false;
+export class BaseConfig implements IBaseConfigurable {
+  public config: IConfig;
+  public uuid: string;
 
-  constructor(config: Config) {
+  constructor(config: IConfig) {
     this.config = config;
+    this.uuid = uuid();
   }
 
-  public changeConfig(newConfig: Partial<Config>) {
+  protected getEventName(event: { exchange: string; routingKey: string }) {
+    return `${event.exchange}/${event.routingKey}`;
+  }
+
+  public changeConfig(newConfig: Partial<IConfig>) {
     this.config = {
       ...this.config,
       ...newConfig,

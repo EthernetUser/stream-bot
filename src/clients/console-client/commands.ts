@@ -1,32 +1,32 @@
-import { BaseConfigurable, Commands } from "../../types";
+import { IBaseConfigurable, ICommands } from "../../types";
 
-export const commands: Commands = {
-  "!юля": (client: BaseConfigurable) => {
+export const commands: ICommands = {
+  "!юля": (client: IBaseConfigurable) => {
     client.changeConfig({
       currentStreamer: client.config.streamers["юля"].nickName,
     });
   },
-  "!лера": (client: BaseConfigurable) => {
+  "!лера": (client: IBaseConfigurable) => {
     client.changeConfig({
       currentStreamer: client.config.streamers["лера"].nickName,
     });
   },
-  "!я": (client: BaseConfigurable) => {
+  "!я": (client: IBaseConfigurable) => {
     client.changeConfig({
       currentStreamer: client.config.streamers["я"].nickName,
     });
   },
-  "!all": (client: BaseConfigurable) => {
+  "!all": (client: IBaseConfigurable) => {
     client.changeConfig({
       currentStreamer: client.config.streamers["all"].nickName,
     });
   },
-  "!карина": (client: BaseConfigurable) => {
+  "!карина": (client: IBaseConfigurable) => {
     client.changeConfig({
       currentStreamer: client.config.streamers["карина"].nickName,
     });
   },
-  "!автоответы": (client: BaseConfigurable) => {
+  "!автоответы": (client: IBaseConfigurable) => {
     client.changeConfig({
       autoAnswersMode: client.config.autoAnswersMode ? false : true,
     });

@@ -1,4 +1,4 @@
-import { Options } from "../../types";
+import { IAutoAnswers } from "../../types";
 
 const nicknames = {
   me: "iamgastank",
@@ -13,19 +13,11 @@ function randomInteger(minimum: number, maximum: number) {
     minimum = 0;
   }
 
-  if (typeof minimum !== "number" || typeof maximum !== "number") {
-    throw new TypeError("Expected all arguments to be numbers");
-  }
-
   return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
 }
 
 const randomKolya = () => {
-  const names = [
-    "лох",
-    "насосал на подписку",
-    "насосал на модерку",
-  ];
+  const names = ["лох", "насосал на подписку", "насосал на модерку"];
   const randNum = randomInteger(0, names.length - 1);
   return names[randNum];
 };
@@ -91,45 +83,43 @@ const answerToLoh: { [k: string]: (() => string) | undefined } = {
   [nicknames.пливетик]: () => `@${nicknames.пливетик} сама мелкая лохушка`,
 };
 
-export const autoAnswers: {
-  [k: string]: (opitons: Options) => string | Promise<string>;
-} = {
+export const autoAnswers: IAutoAnswers = {
   саня: () => "че",
   "саня ты тут?": () => "неа)",
   "саня го в доту": () => "не",
   "саня го в апекс": () => "эээм, я что похож наа... юлю?",
-  "юля лох": (options) => `@${options.tags["display-name"]} согласен`,
-  "ира лох": (options) => `@${options.tags["display-name"]} тут не поспоришь`,
-  "саня лох": (options) => {
-    const answer = answerToLoh[options.tags["display-name"] || ""];
+  "юля лох": ({ tags }) => `@${tags["display-name"]} согласен`,
+  "ира лох": ({ tags }) => `@${tags["display-name"]} тут не поспоришь`,
+  "саня лох": ({ tags }) => {
+    const answer = answerToLoh[tags["display-name"] || ""];
 
     if (answer) {
       return answer();
     }
-    return `@${options.tags["display-name"]} сам лох`;
+    return `@${tags["display-name"]} сам лох`;
   },
-  "лера лох": (options) => `@${options.tags["display-name"]} соглы`,
-  "марк лох": (options) => `@${options.tags["display-name"]} соглы`,
-  "коля лох": (options) => `@${options.tags["display-name"]} соглы`,
-  "сколько см у карины": (opitons) => `@${opitons.tags["display-name"]} у карины ${randomInteger(3, 40)} см`,
-  "сколько см у юли": (opitons) => `@${opitons.tags["display-name"]} у юли ${randomInteger(3, 40)} см`,
-  "сколько у меня см": (options) => `@${options.tags["display-name"]} у тебя ${randomInteger(3, 40)} см`,
+  "лера лох": ({ tags }) => `@${tags["display-name"]} соглы`,
+  "марк лох": ({ tags }) => `@${tags["display-name"]} соглы`,
+  "коля лох": ({ tags }) => `@${tags["display-name"]} соглы`,
+  "сколько см у карины": ({ tags }) => `@${tags["display-name"]} у карины ${randomInteger(3, 40)} см`,
+  "сколько см у юли": ({ tags }) => `@${tags["display-name"]} у юли ${randomInteger(3, 40)} см`,
+  "сколько у меня см": ({ tags }) => `@${tags["display-name"]} у тебя ${randomInteger(3, 40)} см`,
   "привет саня": () => "прив",
   "саня привет": () => "прив",
-  "дота чи не": (opitons) => `@${opitons.tags["display-name"]} ` + (randomInteger(0, 1) == 0 ? "не" : "го"),
-  "кто такой марк": (opitons) => `@${opitons.tags["display-name"]} он ${randomMark()}`,
-  пи: (opitons) => `@${opitons.tags["display-name"]} door`,
-  "кто такой саня": (opitons) => `@${opitons.tags["display-name"]} он красавчик`,
-  "кто такая юля": (options) => `@${options.tags["display-name"]} она ${randomJulia()}`,
-  "кто такой коля": (options) => `@${options.tags["display-name"]} он ${randomKolya()}`,
-  "роль юли": (options) => `@${options.tags["display-name"]} она ${randomRole()}`,
-  "кто такой пливетик": (options) => `@${options.tags['display-name']} он гей`, 
-  "моя роль": (options) => {
-    const role = options.tags["display-name"] === nicknames.me ? "красавчик" : randomRole();
-    return `@${options.tags["display-name"]} ты ${role}`;
+  "дота чи не": ({ tags }) => `@${tags["display-name"]} ` + (randomInteger(0, 1) == 0 ? "не" : "го"),
+  "кто такой марк": ({ tags }) => `@${tags["display-name"]} он ${randomMark()}`,
+  пи: ({ tags }) => `@${tags["display-name"]} door`,
+  "кто такой саня": ({ tags }) => `@${tags["display-name"]} он красавчик`,
+  "кто такая юля": ({ tags }) => `@${tags["display-name"]} она ${randomJulia()}`,
+  "кто такой коля": ({ tags }) => `@${tags["display-name"]} он ${randomKolya()}`,
+  "роль юли": ({ tags }) => `@${tags["display-name"]} она ${randomRole()}`,
+  "кто такой пливетик": ({ tags }) => `@${tags["display-name"]} он гей`,
+  "моя роль": ({ tags }) => {
+    const role = tags["display-name"] === nicknames.me ? "красавчик" : randomRole();
+    return `@${tags["display-name"]} ты ${role}`;
   },
   "что вершит судьбу человечества": () =>
     `Что вершит судьбу человечества в этом мире? Некое незримое существо или закон, подобно Длани Господней парящей над миром? По крайне мере истинно то, что человек не властен даже над своей волей.`,
-  женщины: (opitons) =>
-    `@${opitons.tags["display-name"]} Женщины... алчные, корыстные, злобные, согрешившие против самого человечества... Нельзя поддаваться греху, нужно бороться, сражаться! Нельзя предавать метал, сколь не было бы сильно искушение ереси, будь твёрд в вере своей. Знай, огонь святости, что горит вдалеке ближе, и тем он ближе, чем сильнее высекаешь ты. Будь крепок и нулеёбен, металлист.`,
+  женщины: ({ tags }) =>
+    `@${tags["display-name"]} Женщины... алчные, корыстные, злобные, согрешившие против самого человечества... Нельзя поддаваться греху, нужно бороться, сражаться! Нельзя предавать метал, сколь не было бы сильно искушение ереси, будь твёрд в вере своей. Знай, огонь святости, что горит вдалеке ближе, и тем он ближе, чем сильнее высекаешь ты. Будь крепок и нулеёбен, металлист.`,
 };

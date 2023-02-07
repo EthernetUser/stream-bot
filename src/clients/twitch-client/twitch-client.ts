@@ -1,26 +1,14 @@
 import tmi from "tmi.js";
 
-import { Config, IPubSub, Options } from "../../types";
+import { IAutoAnswers, IConfig, IPubSub } from "../../types";
 import { BaseConfig } from "../base-config";
 
 export class TwitchClient extends BaseConfig {
   public tmi: tmi.Client;
-  private autoAnswers: {
-    [k: string]: (opitons: Options) => string | Promise<string>;
-  };
+  private autoAnswers: IAutoAnswers;
   private pubSub: IPubSub;
 
-  constructor({
-    config,
-    autoAnswers,
-    pubSub,
-  }: {
-    config: Config;
-    autoAnswers: {
-      [k: string]: (options: Options) => string | Promise<string>;
-    };
-    pubSub: IPubSub;
-  }) {
+  constructor({ config, autoAnswers, pubSub }: { config: IConfig; autoAnswers: IAutoAnswers; pubSub: IPubSub }) {
     super(config);
     this.tmi = new tmi.Client({
       connection: {
@@ -34,9 +22,20 @@ export class TwitchClient extends BaseConfig {
     this.autoAnswers = autoAnswers;
     this.pubSub = pubSub;
 
-    this.pubSub.subscribe("config/change", this.changeConfig.bind(this));
-    this.pubSub.subscribe("twitch/sendMessage", this.say.bind(this));
+    this.pubSub.subscribe(this.getEventName(this.config.events.configChange), this.changeConfig.bind(this), this.uuid);
+    this.pubSub.subscribe(this.getEventName(this.config.events.twitchSendMessage), this.say.bind(this), this.uuid);
   }
+
+  private getDelay = (channel: string) => {
+    const slicedChannelName = channel[0] === "#" ? channel.slice(1) : channel;
+    let delay = Object.values(this.config.streamers).find((streamer) => streamer.nickName === slicedChannelName)?.delay;
+
+    if (delay === undefined) {
+      delay = 1000;
+    }
+
+    return delay;
+  };
 
   private sleep(ms: number) {
     return new Promise<void>((resolve) => {
@@ -48,6 +47,7 @@ export class TwitchClient extends BaseConfig {
 
   public async messageHandler(channel: string, tags: tmi.ChatUserstate, message: string, self: boolean) {
     const sanitaizedMessage = message.toLowerCase().trim();
+
     const answer = this.autoAnswers[sanitaizedMessage];
     const options = {
       channel,
@@ -60,15 +60,18 @@ export class TwitchClient extends BaseConfig {
 
     if (answer && this.config.autoAnswersMode) {
       const currentAnswer = await answer(options);
-      console.log(channel);
-      const delay = Object.values(this.config.streamers).find((streamer) => streamer.nickName === channel.slice(1))?.delay || 1000;
+      let delay = this.getDelay(channel);
+
       await this.sleep(delay);
       await this.tmi.say(channel, currentAnswer);
+
       console.log(`[channel: ${channel}] @${tags["display-name"]}: (auto) ${currentAnswer}`);
     }
   }
 
   public async say({ channel, message }: { channel: string; message: any }) {
+    const delay = this.getDelay(channel);
+    await this.sleep(delay);
     this.tmi.say(channel, message);
   }
 
