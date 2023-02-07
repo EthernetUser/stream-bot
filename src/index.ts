@@ -1,5 +1,3 @@
-import { v4 as uuid } from "uuid";
-
 import { commands } from "./clients/console-client/commands";
 import { ConsoleClient } from "./clients/console-client/console-client";
 import { autoAnswers } from "./clients/twitch-client/auto-answers";
@@ -7,20 +5,12 @@ import { TwitchClient } from "./clients/twitch-client/twitch-client";
 import config from "./config";
 import jsonCredentionals from "./config";
 import { PubSub } from "./infrastructure/pub-sub";
-import { IConfig, IStreamerInfo } from "./types";
-
-const streamers: IStreamerInfo = {
-  юля: { nickName: "l_julinka_l", delay: 0 },
-  лера: { nickName: "valer1ka", delay: 1000 },
-  я: { nickName: "iamgastank", delay: 0 },
-  карина: { nickName: "samuraisooab", delay: 1000 },
-  all: { nickName: "", delay: 1000 },
-};
+import { IConfig } from "./types";
 
 const baseConfig: IConfig = {
   autoAnswersMode: true,
   currentStreamer: "",
-  streamers,
+  streamers: config.streamers,
   tmiConfig: {
     ...jsonCredentionals.tmiCrendentials,
   },
