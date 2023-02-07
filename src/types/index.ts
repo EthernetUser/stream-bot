@@ -36,7 +36,7 @@ export interface IConfig {
     username: string;
     password: string;
   };
-  events: typeof config.events
+  events: typeof config.events;
 }
 
 export interface IBaseConfigurable {
