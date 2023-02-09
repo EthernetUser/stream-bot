@@ -102,6 +102,7 @@ export const autoAnswers: IAutoAnswers = {
   "марк лох": ({ tags }) => `@${tags["display-name"]} соглы`,
   "коля лох": ({ tags }) => `@${tags["display-name"]} соглы`,
   "сколько см у карины": ({ tags }) => `@${tags["display-name"]} у карины ${randomInteger(3, 40)} см`,
+  "сколько см у леры": ({ tags }) => `@${tags["display-name"]} у леры ${randomInteger(3, 40)} см`,
   "сколько см у юли": ({ tags }) => `@${tags["display-name"]} у юли ${randomInteger(3, 40)} см`,
   "сколько см у коли": ({ tags }) => `@${tags["display-name"]} у коли ${randomInteger(-1, -69)} см`,
   "сколько у меня см": ({ tags }) => `@${tags["display-name"]} у тебя ${randomInteger(3, 40)} см`,
