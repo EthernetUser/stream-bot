@@ -46,9 +46,14 @@ export class TwitchClient extends BaseConfig {
   }
 
   public async messageHandler(channel: string, tags: tmi.ChatUserstate, message: string, self: boolean) {
-    const sanitaizedMessage = message.toLowerCase().trim();
+    const sanitizedMessage = message
+      .toLowerCase()
+      .trim()
+      .split(" ")
+      .filter((word) => word !== "")
+      .join(" ");
 
-    const answer = this.autoAnswers[sanitaizedMessage];
+    const answer = this.autoAnswers[sanitizedMessage];
     const options = {
       channel,
       tags,
@@ -60,7 +65,7 @@ export class TwitchClient extends BaseConfig {
 
     if (answer && this.config.autoAnswersMode) {
       const currentAnswer = await answer(options);
-      let delay = this.getDelay(channel);
+      const delay = this.getDelay(channel);
 
       await this.sleep(delay);
       await this.tmi.say(channel, currentAnswer);
