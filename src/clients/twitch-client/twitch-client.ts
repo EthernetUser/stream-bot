@@ -2,11 +2,13 @@ import tmi from "tmi.js";
 
 import { IAutoAnswers, IConfig, IPubSub } from "../../types";
 import { BaseConfig } from "../base-config";
+import { getRandomSmile } from "./get-random-smile";
 
 export class TwitchClient extends BaseConfig {
   public tmi: tmi.Client;
-  private autoAnswers: IAutoAnswers;
+  private readonly autoAnswers: IAutoAnswers;
   private pubSub: IPubSub;
+  private getRandomSmile: () => string;
 
   constructor({ config, autoAnswers, pubSub }: { config: IConfig; autoAnswers: IAutoAnswers; pubSub: IPubSub }) {
     super(config);
@@ -21,6 +23,7 @@ export class TwitchClient extends BaseConfig {
     });
     this.autoAnswers = autoAnswers;
     this.pubSub = pubSub;
+    this.getRandomSmile = getRandomSmile;
 
     this.pubSub.subscribe(this.getEventName(this.config.events.configChange), this.changeConfig.bind(this), this.uuid);
     this.pubSub.subscribe(this.getEventName(this.config.events.twitchSendMessage), this.say.bind(this), this.uuid);
@@ -64,7 +67,7 @@ export class TwitchClient extends BaseConfig {
     console.log(`[channel: ${channel}] @${tags["display-name"]}: ${message}`);
 
     if (answer && this.config.autoAnswersMode) {
-      const currentAnswer = await answer(options);
+      const currentAnswer = (await answer(options)) + " " + this.getRandomSmile();
       const delay = this.getDelay(channel);
 
       await this.sleep(delay);

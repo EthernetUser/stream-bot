@@ -1,4 +1,5 @@
 import { IAutoAnswers } from "../../types";
+import { getRandomInteger } from "./get-random-integer";
 
 const nicknames = {
   me: "iamgastank",
@@ -7,17 +8,8 @@ const nicknames = {
   пливетик: "pliviitiek",
 };
 
-const randomInteger = (minimum: number, maximum: number) => {
-  if (maximum === undefined) {
-    maximum = minimum;
-    minimum = 0;
-  }
-
-  return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
-};
-
 const getRandomElementFromArray = (arr: string[]) => {
-  const randNum = randomInteger(0, arr.length - 1);
+  const randNum = getRandomInteger(0, arr.length - 1);
   return arr[randNum];
 };
 
@@ -90,14 +82,14 @@ export const autoAnswers: IAutoAnswers = {
   "лера лох": ({ tags }) => `@${tags["display-name"]} соглы`,
   "марк лох": ({ tags }) => `@${tags["display-name"]} соглы`,
   "коля лох": ({ tags }) => `@${tags["display-name"]} соглы`,
-  "сколько см у карины": ({ tags }) => `@${tags["display-name"]} у карины ${randomInteger(3, 40)} см`,
-  "сколько см у леры": ({ tags }) => `@${tags["display-name"]} у леры ${randomInteger(3, 40)} см`,
-  "сколько см у юли": ({ tags }) => `@${tags["display-name"]} у юли ${randomInteger(3, 40)} см`,
-  "сколько см у коли": ({ tags }) => `@${tags["display-name"]} у коли ${randomInteger(-1, -69)} см`,
-  "сколько у меня см": ({ tags }) => `@${tags["display-name"]} у тебя ${randomInteger(3, 40)} см`,
+  "сколько см у карины": ({ tags }) => `@${tags["display-name"]} у карины ${getRandomInteger(3, 40)} см`,
+  "сколько см у леры": ({ tags }) => `@${tags["display-name"]} у леры ${getRandomInteger(3, 40)} см`,
+  "сколько см у юли": ({ tags }) => `@${tags["display-name"]} у юли ${getRandomInteger(3, 40)} см`,
+  "сколько см у коли": ({ tags }) => `@${tags["display-name"]} у коли ${getRandomInteger(-1, -69)} см`,
+  "сколько у меня см": ({ tags }) => `@${tags["display-name"]} у тебя ${getRandomInteger(3, 40)} см`,
   "привет саня": () => "прив",
   "саня привет": () => "прив",
-  "дота чи не": ({ tags }) => `@${tags["display-name"]} ` + (randomInteger(0, 1) == 0 ? "не" : "го"),
+  "дота чи не": ({ tags }) => `@${tags["display-name"]} ` + (getRandomInteger(0, 1) == 0 ? "не" : "го"),
   "кто такой марк": ({ tags }) => `@${tags["display-name"]} он ${getRandomElementFromArray(markNames)}`,
   пи: ({ tags }) => `@${tags["display-name"]} door`,
   "кто такой саня": ({ tags }) => `@${tags["display-name"]} он красавчик`,
