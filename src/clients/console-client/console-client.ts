@@ -32,6 +32,8 @@ export class ConsoleClient extends BaseConfig {
     if (command) {
       command(this);
       this.pubSub.publish(changeConfigEventName, { ...this.config }, this.uuid);
+    } else {
+      console.log(`Неизвестная команда: '${message}'`);
     }
 
     return true;
