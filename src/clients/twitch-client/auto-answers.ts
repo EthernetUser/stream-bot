@@ -7,75 +7,64 @@ const nicknames = {
   пливетик: "pliviitiek",
 };
 
-function randomInteger(minimum: number, maximum: number) {
+const randomInteger = (minimum: number, maximum: number) => {
   if (maximum === undefined) {
     maximum = minimum;
     minimum = 0;
   }
 
   return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
-}
-
-const randomKolya = () => {
-  const names = ["лох", "насосал на подписку", "насосал на модерку"];
-  const randNum = randomInteger(0, names.length - 1);
-  return names[randNum];
 };
 
-const randomMark = () => {
-  const names = [
-    "лох",
-    "дотер",
-    "дотер лох, который пытаеться в апекс",
-    "врунишка",
-    "топ инвок",
-    "дно инвок",
-    "мягкий пельмень",
-    "полу карк полу кук",
-    "главный по телкам",
-    "маленькая бэйба",
-    "знает кунг-фу",
-    "нереальный типок, написал нейронку на ифах",
-    "гей",
-  ];
-  const randNum = randomInteger(0, names.length - 1);
-  return names[randNum];
+const getRandomElementFromArray = (arr: string[]) => {
+  const randNum = randomInteger(0, arr.length - 1);
+  return arr[randNum];
 };
 
-const randomJulia = () => {
-  const names = [
-    "логист",
-    "продавец",
-    "оператор",
-    "стример",
-    "лох",
-    "лохушка",
-    "стервочка",
-    "гость из арифлейма",
-    "прирожденная уборщица",
-    "ебырь в апексе",
-    "сосун в доте",
-    "уважаемая дама",
-    "девочка припевочка",
-    "старушка",
-    "вялый хот-дог",
-    "кошкодевочка",
-    "две сиськи и жопа",
-    "пельмень",
-    "легко верит всяким ноунейм фирмам по ремонту пк",
-    "юля 20 фпс апекс",
-    "фантомка 0 10",
-    "дает крест на себя",
-  ];
-  const randNum = randomInteger(0, names.length - 1);
-  return names[randNum];
-};
+const markNames = [
+  "лох",
+  "дотер",
+  "дотер лох, который пытаеться в апекс",
+  "врунишка",
+  "топ инвок",
+  "дно инвок",
+  "мягкий пельмень",
+  "полу карк полу кук",
+  "главный по телкам",
+  "маленькая бэйба",
+  "знает кунг-фу",
+  "нереальный типок, написал нейронку на ифах",
+  "гей",
+];
 
-const randomRole = () => {
-  const roles = ["мидер", "керри", "хардер", "семи-саппорт", "фул-саппорт"];
-  const randNum = randomInteger(0, roles.length - 1);
-  return roles[randNum];
-};
+const juliaNames = [
+  "логист",
+  "продавец",
+  "оператор",
+  "стример",
+  "лох",
+  "лохушка",
+  "стервочка",
+  "гость из арифлейма",
+  "прирожденная уборщица",
+  "ебырь в апексе",
+  "сосун в доте",
+  "уважаемая дама",
+  "девочка припевочка",
+  "старушка",
+  "вялый хот-дог",
+  "кошкодевочка",
+  "две сиськи и жопа",
+  "пельмень",
+  "легко верит всяким ноунейм фирмам по ремонту пк",
+  "юля 20 фпс апекс",
+  "фантомка 0 10",
+  "дает крест на себя",
+];
+
+const kolyaNames = ["лох", "насосал на подписку", "насосал на модерку"];
+
+const roles = ["мидер", "керри", "хардер", "семи-саппорт", "фул-саппорт"];
 
 const answerToLoh: { [k: string]: (() => string) | undefined } = {
   [nicknames.коля]: () => `@${nicknames.коля} коляньчик, сам ты лох мелкий)`,
@@ -109,15 +98,15 @@ export const autoAnswers: IAutoAnswers = {
   "привет саня": () => "прив",
   "саня привет": () => "прив",
   "дота чи не": ({ tags }) => `@${tags["display-name"]} ` + (randomInteger(0, 1) == 0 ? "не" : "го"),
-  "кто такой марк": ({ tags }) => `@${tags["display-name"]} он ${randomMark()}`,
+  "кто такой марк": ({ tags }) => `@${tags["display-name"]} он ${getRandomElementFromArray(markNames)}`,
   пи: ({ tags }) => `@${tags["display-name"]} door`,
   "кто такой саня": ({ tags }) => `@${tags["display-name"]} он красавчик`,
-  "кто такая юля": ({ tags }) => `@${tags["display-name"]} она ${randomJulia()}`,
-  "кто такой коля": ({ tags }) => `@${tags["display-name"]} он ${randomKolya()}`,
-  "роль юли": ({ tags }) => `@${tags["display-name"]} она ${randomRole()}`,
+  "кто такая юля": ({ tags }) => `@${tags["display-name"]} она ${getRandomElementFromArray(juliaNames)}`,
+  "кто такой коля": ({ tags }) => `@${tags["display-name"]} он ${getRandomElementFromArray(kolyaNames)}`,
+  "роль юли": ({ tags }) => `@${tags["display-name"]} она ${getRandomElementFromArray(roles)}`,
   "кто такой пливетик": ({ tags }) => `@${tags["display-name"]} он гей`,
   "моя роль": ({ tags }) => {
-    const role = tags["display-name"] === nicknames.me ? "красавчик" : randomRole();
+    const role = tags["display-name"] === nicknames.me ? "красавчик" : getRandomElementFromArray(roles);
     return `@${tags["display-name"]} ты ${role}`;
   },
   "что вершит судьбу человечества": () =>
