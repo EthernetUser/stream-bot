@@ -65,6 +65,10 @@ export const twitchaCommands: ITwitchCommands = {
         `@${nickName} не смог ударить ${args[0]}`,
         `@${nickName} хотел ударить ${args[0]}, но подскальзнулся и упал`,
         `@${nickName} ударил ${args[0]}, но этот удар не нанес урона`,
+        `кулак @${nickName} пролетел мимо ${args[0]} и попал по кирпичной стене... больно наверное...`,
+        `@${nickName} ударил так, что ${args[0]} отлетел в соседнее здание`,
+        `@${nickName} ударил так, что у ${args[0]} выбило все зубы`,
+        `@${nickName} ударил так, что ${args[0]} захотел только почесаться`,
       ];
       const randNum = getRandomInteger(0, punchResults.length - 1);
 
