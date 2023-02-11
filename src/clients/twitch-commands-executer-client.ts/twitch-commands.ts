@@ -1,3 +1,4 @@
+import config from "../../config";
 import { ITwitchCommands } from "../../types";
 import { getRandomInteger } from "../get-random-integer";
 
@@ -31,6 +32,9 @@ export const twitchaCommands: ITwitchCommands = {
       }
 
       const messageTimerIsReady = `@${nickName} таймер поставлен`;
+      console.log(
+        `[channel: ${channel}] @${config.streamers.я.nickName}: (command) ${messageTimerIsReady}`
+      );
       pubSub.publish(
         event || "",
         { channel, message: messageTimerIsReady, emoji: true },
@@ -44,6 +48,9 @@ export const twitchaCommands: ITwitchCommands = {
       });
 
       const messageDone = `@${nickName} время вышло`;
+      console.log(
+        `[channel: ${channel}] @${config.streamers.я.nickName}: (command) ${messageDone}`
+      );
       pubSub.publish(
         event || "",
         { channel, message: messageDone, emoji: true },
@@ -69,10 +76,15 @@ export const twitchaCommands: ITwitchCommands = {
         `@${nickName} ударил так, что ${args[0]} отлетел в соседнее здание`,
         `@${nickName} ударил так, что у ${args[0]} выбило все зубы`,
         `@${nickName} ударил так, что ${args[0]} захотел только почесаться`,
+        `@${nickName} наносит критический удар по ${args[0]}.... помянем ${args[0]} минутой молчания...`,
+        `@${nickName} достает биту и незамысловатым движением отправляет ${args[0]} на тот свет`,
       ];
       const randNum = getRandomInteger(0, punchResults.length - 1);
 
       const punchResultText = punchResults[randNum];
+      console.log(
+        `[channel: ${channel}] @${config.streamers.я.nickName}: (command) ${punchResultText}`
+      );
       pubSub.publish(
         event || "",
         { channel, message: punchResultText, emoji: true },
@@ -85,6 +97,9 @@ export const twitchaCommands: ITwitchCommands = {
       const randNum = getRandomInteger(0, 100);
 
       const message = `@${nickName} ${randNum}`;
+      console.log(
+        `[channel: ${channel}] @${config.streamers.я.nickName}: (command) ${message}`
+      );
       pubSub.publish(event || "", { channel, message, emoji: true }, "");
     },
   },
@@ -93,6 +108,9 @@ export const twitchaCommands: ITwitchCommands = {
       const randNum = getRandomInteger(0, 1);
 
       const message = `@${nickName} ${randNum === 0 ? "орел" : "решка"}`;
+      console.log(
+        `[channel: ${channel}] @${config.streamers.я.nickName}: (command) ${message}`
+      );
       pubSub.publish(event || "", { channel, message, emoji: true }, "");
     },
   },
