@@ -67,6 +67,7 @@ export const twitchaCommands: ITwitchCommands = {
       },
     },
     execute({ pubSub, nickName, args, event, channel }) {
+      const slicedChannelName = channel[0] === "#" ? channel.slice(1) : channel;
       const punchResults = [
         `@${nickName} смог ударить ${args[0]}`,
         `@${nickName} не смог ударить ${args[0]}`,
@@ -78,6 +79,11 @@ export const twitchaCommands: ITwitchCommands = {
         `@${nickName} ударил так, что ${args[0]} захотел только почесаться`,
         `@${nickName} наносит критический удар по ${args[0]}.... помянем ${args[0]} минутой молчания...`,
         `@${nickName} достает биту и незамысловатым движением отправляет ${args[0]} на тот свет`,
+        `@${nickName} вместо удара жидко пернул`,
+        `ужасающий @${nickName} крошит лицо ${args[0]} в мясо`,
+        `@${nickName} пытается ударить ${args[0]} но в последний момент ${slicedChannelName} принимает удар на себя`,
+        `на канале ${slicedChannelName} начинается лютый файт "@${nickName} vs ${args[0]}"... бац хрях дыыыыыыыщ кия... побеждает @${nickName}, поздравим его!`,
+        `на канале ${slicedChannelName} начинается лютый файт "@${nickName} vs ${args[0]}"... бац хрях дыыыыыыыщ кия... побеждает ${args[0]}, поздравим его!`
       ];
       const randNum = getRandomInteger(0, punchResults.length - 1);
 
