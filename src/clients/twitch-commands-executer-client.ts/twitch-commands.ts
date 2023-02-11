@@ -80,4 +80,20 @@ export const twitchaCommands: ITwitchCommands = {
       );
     },
   },
+  ролл: {
+    execute({ pubSub, nickName, event, channel }) {
+      const randNum = getRandomInteger(0, 100);
+
+      const message = `@${nickName} ${randNum}`;
+      pubSub.publish(event || "", { channel, message, emoji: true }, "");
+    },
+  },
+  флип: {
+    execute({ pubSub, nickName, event, channel }) {
+      const randNum = getRandomInteger(0, 1);
+
+      const message = `@${nickName} ${randNum === 0 ? "орел" : "решка"}`;
+      pubSub.publish(event || "", { channel, message, emoji: true }, "");
+    },
+  },
 };
