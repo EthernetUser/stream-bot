@@ -45,9 +45,7 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
           command[1]
         }' следующие обязательные аргументы: ${requiredArgs
           .map(([argName, argProp]) => `([${argName}]: ${argProp.description})`)
-          .join(
-            ", "
-          )}. они должны прописываться через пробел без запятых и тд.`
+          .join(", ")}. они должны прописываться через пробел без запятых и тд.`
       );
 
       return errors;
