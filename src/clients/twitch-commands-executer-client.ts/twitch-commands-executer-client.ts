@@ -3,7 +3,6 @@ import { BaseConfig } from "../base-config";
 import { getRandomSmile } from "../get-random-smile";
 import { twitchaCommands } from "./twitch-commands";
 
-
 export class TwitchCommandsExecuterClient extends BaseConfig {
   private pubSub: IPubSub;
   private getRandomSmile: () => string;
@@ -55,7 +54,7 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
     }
 
     for (let i = 0; i < requiredArgs.length; i++) {
-      const { type, avalibaleValues } = requiredArgs[i][1];
+      const { type, avalibaleValues, isNickName } = requiredArgs[i][1];
       if (type === "string") {
         if (avalibaleValues && !avalibaleValues.includes(argsFromCommand[i])) {
           errors.push(
@@ -63,6 +62,13 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
               argsFromCommand[i]
             }'. доступные значения аргумента: ${avalibaleValues.join(", ")}.`
           );
+        }
+        if (
+          isNickName !== undefined &&
+          isNickName &&
+          argsFromCommand[i][0] !== "@"
+        ) {
+          errors.push(`добавь @ к '${argsFromCommand[i]}'.`);
         }
       }
       if (type === "number") {

@@ -61,6 +61,7 @@ export interface ITwitchCommands {
         type: "number" | "string";
         description: string;
         avalibaleValues?: string[];
+        isNickName?: boolean;
       };
     };
     execute: ({

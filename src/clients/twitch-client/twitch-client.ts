@@ -129,8 +129,20 @@ export class TwitchClient extends BaseConfig {
     }
   }
 
-  public async say({ channel, message }: { channel: string; message: string }) {
+  public async say({
+    channel,
+    message,
+    emoji,
+  }: {
+    channel: string;
+    message: string;
+    emoji?: boolean;
+  }) {
     const delay = this.getDelay(channel);
+
+    if (emoji) {
+      message = message.trim() + " " + this.getRandomSmile();
+    }
 
     if (message.length > 500) {
       const messageChunks = chunk(message.split(""), 500);

@@ -1,4 +1,5 @@
 import { ITwitchCommands } from "../../types";
+import { getRandomInteger } from "../get-random-integer";
 
 export const twitchaCommands: ITwitchCommands = {
   таймер: {
@@ -32,7 +33,7 @@ export const twitchaCommands: ITwitchCommands = {
       const messageTimerIsReady = `@${nickName} таймер поставлен`;
       pubSub.publish(
         event || "",
-        { channel, message: messageTimerIsReady },
+        { channel, message: messageTimerIsReady, emoji: true },
         ""
       );
 
@@ -43,7 +44,36 @@ export const twitchaCommands: ITwitchCommands = {
       });
 
       const messageDone = `@${nickName} время вышло`;
-      pubSub.publish(event || "", { channel, message: messageDone }, "");
+      pubSub.publish(
+        event || "",
+        { channel, message: messageDone, emoji: true },
+        ""
+      );
+    },
+  },
+  ударить: {
+    args: {
+      target: {
+        type: "string",
+        description: "ник того, кого хочешь ударить",
+        isNickName: true,
+      },
+    },
+    execute({ pubSub, nickName, args, event, channel }) {
+      const punchResults = [
+        `@${nickName} смог ударить ${args[0]}`,
+        `@${nickName} не смог ударить ${args[0]}`,
+        `@${nickName} хотел ударить ${args[0]}, но подскальзнулся и упал`,
+        `@${nickName} ударил ${args[0]}, но этот удар не нанес урона`,
+      ];
+      const randNum = getRandomInteger(0, punchResults.length - 1);
+
+      const punchResultText = punchResults[randNum];
+      pubSub.publish(
+        event || "",
+        { channel, message: punchResultText, emoji: true },
+        ""
+      );
     },
   },
 };
