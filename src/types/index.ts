@@ -1,4 +1,5 @@
 import { Userstate } from "tmi.js";
+import { TwitchClient } from "../clients/twitch-client/twitch-client";
 import config from "../config";
 
 export interface IAutoAnswers {
@@ -6,8 +7,12 @@ export interface IAutoAnswers {
 }
 
 export interface IPubSub {
-  publish: (channelName: string, message: any, uuid: string) => void;
-  subscribe: (channelName: string, listener: (message: any) => Promise<any> | any, uuid: string) => void;
+  publish: (eventName: string, message: any, uuid: string) => void;
+  subscribe: (
+    eventName: string,
+    listener: (message: any) => Promise<any> | any,
+    uuid: string
+  ) => void;
 }
 
 export interface IOptions {
@@ -17,7 +22,7 @@ export interface IOptions {
   message: string;
 }
 
-export interface ICommands {
+export interface IConsoleCommands {
   [k: string]: (client: IBaseConfigurable) => void | undefined;
 }
 
@@ -43,4 +48,33 @@ export interface IBaseConfigurable {
   uuid: string;
   config: IConfig;
   changeConfig: (newConfig: Partial<IConfig>) => void;
+}
+
+export interface ITwitchCommandParser {
+  parse: (message: string) => string[] | null;
+}
+
+export interface ITwitchCommands {
+  [k: string]: {
+    args?: {
+      [k: string]: {
+        type: "number" | "string";
+        description: string;
+        avalibaleValues?: string[];
+      };
+    };
+    execute: ({
+      pubSub,
+      nickName,
+      args,
+      event,
+      channel,
+    }: {
+      pubSub: IPubSub;
+      nickName: string;
+      args: string[];
+      event: string;
+      channel: string;
+    }) => void;
+  };
 }

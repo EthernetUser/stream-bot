@@ -25,5 +25,9 @@ export default {
       exchange: "config",
       routingKey: "change",
     },
+    recieveTwitchCommand: {
+      exchange: "twitch",
+      routingKey: "recieveCommand",
+    },
   },
 };

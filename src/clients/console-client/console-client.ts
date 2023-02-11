@@ -1,14 +1,22 @@
 import ReadLine from "readline";
 
-import { ICommands, IConfig, IPubSub } from "../../types";
+import { IConsoleCommands, IConfig, IPubSub } from "../../types";
 import { BaseConfig } from "../base-config";
 
 export class ConsoleClient extends BaseConfig {
   private readline: ReadLine.Interface;
   private pubSub: IPubSub;
-  private commands: ICommands;
+  private commands: IConsoleCommands;
 
-  constructor({ config, pubSub, commands }: { commands: ICommands; pubSub: IPubSub; config: IConfig }) {
+  constructor({
+    config,
+    pubSub,
+    commands,
+  }: {
+    commands: IConsoleCommands;
+    pubSub: IPubSub;
+    config: IConfig;
+  }) {
     super(config);
     this.readline = ReadLine.createInterface({
       input: process.stdin,
@@ -18,11 +26,17 @@ export class ConsoleClient extends BaseConfig {
     this.pubSub = pubSub;
     this.commands = commands;
 
-    this.pubSub.subscribe(this.getEventName(this.config.events.configChange), this.changeConfig.bind(this), this.uuid);
+    this.pubSub.subscribe(
+      this.getEventName(this.config.events.configChange),
+      this.changeConfig.bind(this),
+      this.uuid
+    );
   }
 
   private executeCommandHandler(message: string) {
-    const changeConfigEventName = this.getEventName(this.config.events.configChange);
+    const changeConfigEventName = this.getEventName(
+      this.config.events.configChange
+    );
     if (message[0] !== "!") {
       return false;
     }
@@ -40,7 +54,9 @@ export class ConsoleClient extends BaseConfig {
   }
 
   private consoleMessageHandler(message: string) {
-    const sendMessageEventName = this.getEventName(this.config.events.twitchSendMessage);
+    const sendMessageEventName = this.getEventName(
+      this.config.events.twitchSendMessage
+    );
     const isCommand = this.executeCommandHandler(message);
 
     if (isCommand) {

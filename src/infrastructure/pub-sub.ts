@@ -1,9 +1,15 @@
 import { IPubSub } from "../types";
 
 export class PubSub implements IPubSub {
-  private static events: { [event: string]: { listener: (message: any) => any; uuid: string }[] } = {};
+  private static events: {
+    [event: string]: { listener: (message: any) => any; uuid: string }[];
+  } = {};
 
-  public subscribe(eventName: string, listener: (message: any) => Promise<any> | any, uuid: string) {
+  public subscribe(
+    eventName: string,
+    listener: (message: any) => Promise<any> | any,
+    uuid: string
+  ) {
     if (!PubSub.events[eventName]) {
       PubSub.events[eventName] = [];
     } else {
@@ -22,6 +28,8 @@ export class PubSub implements IPubSub {
     if (!event || !event.length) {
       return;
     }
-    event.filter((event) => event.uuid !== uuid).forEach((event) => event.listener(message));
+    event
+      .filter((event) => event.uuid !== uuid)
+      .forEach((event) => event.listener(message));
   }
 }

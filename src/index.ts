@@ -1,4 +1,4 @@
-import { commands } from "./clients/console-client/commands";
+import { consoleCommands } from "./clients/console-client/console-commands";
 import { ConsoleClient } from "./clients/console-client/console-client";
 import { autoAnswers } from "./clients/twitch-client/auto-answers";
 import { TwitchClient } from "./clients/twitch-client/twitch-client";
@@ -6,6 +6,7 @@ import config from "./config";
 import jsonCredentionals from "./config";
 import { PubSub } from "./infrastructure/pub-sub";
 import { IConfig } from "./types";
+import { TwitchCommandsExecuterClient } from "./clients/twitch-commands-executer-client.ts/twitch-commands-executer-client";
 
 const baseConfig: IConfig = {
   autoAnswersMode: true,
@@ -22,12 +23,17 @@ const pubSub = new PubSub();
 const consoleClient = new ConsoleClient({
   config: baseConfig,
   pubSub,
-  commands,
+  commands: consoleCommands,
 });
 
 const twitchClient = new TwitchClient({
   config: baseConfig,
   autoAnswers,
+  pubSub,
+});
+
+new TwitchCommandsExecuterClient({
+  config: baseConfig,
   pubSub,
 });
 

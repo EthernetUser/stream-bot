@@ -1,6 +1,6 @@
-import { IBaseConfigurable, ICommands } from "../../types";
+import { IBaseConfigurable, IConsoleCommands } from "../../types";
 
-export const commands: ICommands = {
+export const consoleCommands: IConsoleCommands = {
   "!юля": (client: IBaseConfigurable) => {
     client.changeConfig({
       currentStreamer: client.config.streamers["юля"].nickName,

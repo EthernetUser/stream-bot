@@ -1,4 +1,4 @@
-import { getRandomInteger } from "./get-random-integer";
+import { getRandomInteger } from "./twitch-client/get-random-integer";
 
 export const charSmiles = [
   "(* ^ ω ^)",
@@ -34,6 +34,12 @@ export const charSmiles = [
   "(〇_ｏ)",
   "(⊙_⊙)",
   "(￣▽￣)ノ",
+  "(／￣(ｴ)￣)／",
+  "(＞ｍ＜)",
+  "(＃￣ω￣)",
+  "(＃＞＜)",
+  "❤ (ɔˆз(ˆ⌣ˆc)",
+  "≧(◕ ‿‿ ◕)≦",
 ];
 
 export const getRandomSmile = () => {
