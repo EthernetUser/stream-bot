@@ -47,7 +47,7 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
           .map(([argName, argProp]) => `([${argName}]: ${argProp.description})`)
           .join(
             ", "
-          )}. они должны прописываться через пробел без запятых и тд. ${this.getRandomSmile()}`
+          )}. они должны прописываться через пробел без запятых и тд.`
       );
 
       return errors;
@@ -108,13 +108,10 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
         this.config.events.twitchSendMessage
       );
       const message =
-        `@${nickName} ` +
-        errors.join(` ${this.getRandomSmile()} `) +
-        " " +
-        this.getRandomSmile();
+        `@${nickName} ` + errors.join(` ${this.getRandomSmile()} `);
       this.pubSub.publish(
         sendMessageEventName,
-        { channel, message },
+        { channel, message, emoji: true },
         this.uuid
       );
 

@@ -117,11 +117,10 @@ export class TwitchClient extends BaseConfig {
     };
 
     if (answer && this.config.autoAnswersMode) {
-      const currentAnswer =
-        (await answer(options)) + " " + this.getRandomSmile();
+      const currentAnswer = await answer(options);
       const delay = this.getDelay(channel);
 
-      await this.say({ channel, message: currentAnswer });
+      await this.say({ channel, message: currentAnswer, emoji: true });
 
       console.log(
         `[channel: ${channel}] @${tags["display-name"]}: (auto) ${currentAnswer}`
