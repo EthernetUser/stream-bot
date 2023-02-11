@@ -1,5 +1,5 @@
 import { IAutoAnswers, IOptions } from "../../types";
-import { getRandomInteger } from "./get-random-integer";
+import { getRandomInteger } from "../get-random-integer";
 
 const nicknames = {
   me: "iamgastank",
