@@ -60,7 +60,7 @@ export interface ITwitchCommands {
       [k: string]: {
         type: "number" | "string";
         description: string;
-        avalibaleValues?: string[];
+        avaliableValues?: string[];
         isNickName?: boolean;
       };
     };

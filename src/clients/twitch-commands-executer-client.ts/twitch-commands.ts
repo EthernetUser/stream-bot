@@ -12,19 +12,23 @@ export const twitchaCommands: ITwitchCommands = {
       timeType: {
         type: "string",
         description: "секунды или минуты (сек, мин)",
-        avalibaleValues: ["сек", "мин"],
+        avaliableValues: ["сек", "мин"],
       },
     },
-    async execute({ pubSub, nickName, args, event, channel }) {
+    async execute({
+      pubSub,
+      nickName,
+      args: [timeToWait, timeType],
+      event,
+      channel,
+    }) {
       const expressionFromTimeType: { [k: string]: (value: number) => number } =
         {
           сек: (value: number) => value * 1000,
           мин: (value: number) => value * 1000 * 60,
         };
 
-      const timeToWait = parseInt(args[0], 10);
-      const timeType = args[1];
-
+      const timeToWaitNum = parseInt(timeToWait, 10);
       const timeInMs = expressionFromTimeType[timeType];
 
       if (!timeInMs) {
@@ -44,7 +48,7 @@ export const twitchaCommands: ITwitchCommands = {
       await new Promise<void>((resolve) => {
         setTimeout(() => {
           resolve();
-        }, timeInMs(timeToWait));
+        }, timeInMs(timeToWaitNum));
       });
 
       const messageDone = `@${nickName} время вышло`;
@@ -66,24 +70,26 @@ export const twitchaCommands: ITwitchCommands = {
         isNickName: true,
       },
     },
-    execute({ pubSub, nickName, args, event, channel }) {
+    execute({ pubSub, nickName, args: [target], event, channel }) {
       const slicedChannelName = channel[0] === "#" ? channel.slice(1) : channel;
+      const atSignedNickName = "@" + nickName;
       const punchResults = [
-        `@${nickName} смог ударить ${args[0]}`,
-        `@${nickName} не смог ударить ${args[0]}`,
-        `@${nickName} хотел ударить ${args[0]}, но подскальзнулся и упал`,
-        `@${nickName} ударил ${args[0]}, но этот удар не нанес урона`,
-        `кулак @${nickName} пролетел мимо ${args[0]} и попал по кирпичной стене... больно наверное...`,
-        `@${nickName} ударил так, что ${args[0]} отлетел в соседнее здание`,
-        `@${nickName} ударил так, что у ${args[0]} выбило все зубы`,
-        `@${nickName} ударил так, что ${args[0]} захотел только почесаться`,
-        `@${nickName} наносит критический удар по ${args[0]}.... помянем ${args[0]} минутой молчания...`,
-        `@${nickName} достает биту и незамысловатым движением отправляет ${args[0]} на тот свет`,
-        `@${nickName} вместо удара жидко пернул`,
-        `ужасающий @${nickName} крошит лицо ${args[0]} в мясо`,
-        `@${nickName} пытается ударить ${args[0]} но в последний момент ${slicedChannelName} принимает удар на себя`,
-        `на канале ${slicedChannelName} начинается лютый файт "@${nickName} vs ${args[0]}"... бац хрях дыыыыыыыщ кия... побеждает @${nickName}, поздравим его!`,
-        `на канале ${slicedChannelName} начинается лютый файт "@${nickName} vs ${args[0]}"... бац хрях дыыыыыыыщ кия... побеждает ${args[0]}, поздравим его!`
+        `${atSignedNickName} смог ударить ${target}`,
+        `${atSignedNickName} не смог ударить ${target}`,
+        `${atSignedNickName} хотел ударить ${target}, но подскальзнулся и упал`,
+        `${atSignedNickName} ударил ${target}, но этот удар не нанес урона`,
+        `кулак ${atSignedNickName} пролетел мимо ${target} и попал по кирпичной стене... больно наверное...`,
+        `${atSignedNickName} ударил так, что ${target} отлетел в соседнее здание`,
+        `${atSignedNickName} ударил так, что у ${target} выбило все зубы`,
+        `${atSignedNickName} ударил так, что ${target} захотел только почесаться`,
+        `${atSignedNickName} наносит критический удар по ${target}.... помянем ${target} минутой молчания...`,
+        `${atSignedNickName} достает биту и незамысловатым движением отправляет ${target} на тот свет`,
+        `${atSignedNickName} вместо удара жидко пернул`,
+        `ужасающий ${atSignedNickName} крошит лицо ${target} в мясо`,
+        `${atSignedNickName} пытается ударить ${target} но в последний момент ${slicedChannelName} принимает удар на себя`,
+        `на канале ${slicedChannelName} начинается лютый файт "${atSignedNickName} vs ${target}"... бац хрях дыыыыыыыщ кия... побеждает ${
+          getRandomInteger(0, 1) === 0 ? atSignedNickName : target
+        }, поздравим его!`,
       ];
       const randNum = getRandomInteger(0, punchResults.length - 1);
 

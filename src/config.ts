@@ -14,6 +14,7 @@ export default {
     лера: { nickName: "valer1ka", delay: 1000 },
     я: { nickName: "iamgastank", delay: 0 },
     карина: { nickName: "samuraisooab", delay: 1000 },
+    уточка: { nickName: "yto4ka_xd", delay: 1000 },
     all: { nickName: "", delay: 1000 },
   },
   events: {

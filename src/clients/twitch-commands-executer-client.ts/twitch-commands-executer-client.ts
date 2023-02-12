@@ -44,7 +44,7 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
         `хз че за аргументы ты передал ${this.getRandomSmile()}, у команды '${
           command[1]
         }' следующие обязательные аргументы: ${requiredArgs
-          .map(([argName, argProp]) => `([${argName}]: ${argProp.description})`)
+          .map(([argName, argProps]) => `[${argName}]: ${argProps.description}`)
           .join(", ")}. они должны прописываться через пробел без запятых и тд.`
       );
 
@@ -52,7 +52,12 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
     }
 
     for (let i = 0; i < requiredArgs.length; i++) {
-      const { type, avalibaleValues, isNickName } = requiredArgs[i][1];
+      const {
+        type,
+        avaliableValues: avalibaleValues,
+        isNickName,
+      } = requiredArgs[i][1];
+
       if (type === "string") {
         if (avalibaleValues && !avalibaleValues.includes(argsFromCommand[i])) {
           errors.push(
@@ -61,6 +66,7 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
             }'. доступные значения аргумента: ${avalibaleValues.join(", ")}.`
           );
         }
+
         if (
           isNickName !== undefined &&
           isNickName &&
@@ -69,10 +75,12 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
           errors.push(`добавь @ к '${argsFromCommand[i]}'.`);
         }
       }
+
       if (type === "number") {
         if (Number.isNaN(parseInt(argsFromCommand[i], 10))) {
           errors.push(`значение '${argsFromCommand[i]}' не является числом.`);
         }
+
         if (avalibaleValues && !avalibaleValues.includes(argsFromCommand[i])) {
           errors.push(
             `неверное значение '${
@@ -105,8 +113,10 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
       const sendMessageEventName = this.getEventName(
         this.config.events.twitchSendMessage
       );
+
       const message =
         `@${nickName} ` + errors.join(` ${this.getRandomSmile()} `);
+
       this.pubSub.publish(
         sendMessageEventName,
         { channel, message, emoji: true },
