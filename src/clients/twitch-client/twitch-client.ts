@@ -141,7 +141,7 @@ export class TwitchClient extends BaseClient {
 
       for (const messageChunk of messageChunks) {
         await this.sleep(delay);
-        this.tmi.say(channel, messageChunk.join(""));
+        await this.tmi.say(channel, messageChunk.join(""));
       }
       return;
     }
