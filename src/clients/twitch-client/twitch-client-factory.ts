@@ -1,21 +1,12 @@
-import config from "../../config";
-import { IConfig } from "../../types";
-import { TwitchClient } from "./twitch-client";
-import { PubSub } from "../../infrastructure/pub-sub";
-import { autoAnswers } from "./auto-answers";
 import { Client } from "tmi.js";
-import { getRandomSmile } from "../get-random-smile";
-import { TwitchCommandParser } from "./twitch-command-parser";
 
-const baseConfig: IConfig = {
-  autoAnswersMode: true,
-  currentStreamer: "",
-  streamers: config.streamers,
-  tmiConfig: {
-    ...config.tmiCrendentials,
-  },
-  events: config.events,
-};
+import config from "../../config";
+import { PubSub } from "../../infrastructure/pub-sub";
+import { baseConfig } from "../base-config";
+import { getRandomSmile } from "../get-random-smile";
+import { autoAnswers } from "./auto-answers";
+import { TwitchClient } from "./twitch-client";
+import { TwitchCommandParser } from "./twitch-command-parser";
 
 const pubSub = new PubSub();
 
