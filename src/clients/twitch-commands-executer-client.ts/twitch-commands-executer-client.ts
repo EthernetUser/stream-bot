@@ -60,14 +60,6 @@ export class TwitchCommandsExecuterClient extends BaseClient {
       } = requiredArgs[i][1];
 
       if (type === "string") {
-        if (avalibaleValues && !avalibaleValues.includes(argsFromCommand[i])) {
-          errors.push(
-            `неверное значение '${
-              argsFromCommand[i]
-            }'. доступные значения аргумента: ${avalibaleValues.join(", ")}.`
-          );
-        }
-
         if (
           isNickName !== undefined &&
           isNickName &&
@@ -81,14 +73,14 @@ export class TwitchCommandsExecuterClient extends BaseClient {
         if (Number.isNaN(parseInt(argsFromCommand[i], 10))) {
           errors.push(`значение '${argsFromCommand[i]}' не является числом.`);
         }
+      }
 
-        if (avalibaleValues && !avalibaleValues.includes(argsFromCommand[i])) {
-          errors.push(
-            `неверное значение '${
-              argsFromCommand[i]
-            }'. доступные значения аргумента: ${avalibaleValues.join(", ")}.`
-          );
-        }
+      if (avalibaleValues && !avalibaleValues.includes(argsFromCommand[i])) {
+        errors.push(
+          `неверное значение '${
+            argsFromCommand[i]
+          }'. доступные значения аргумента: ${avalibaleValues.join(", ")}.`
+        );
       }
     }
 
