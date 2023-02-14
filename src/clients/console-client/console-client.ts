@@ -1,9 +1,9 @@
 import ReadLine from "readline";
 
 import { IConsoleCommands, IConfig, IPubSub } from "../../types";
-import { BaseConfig } from "../base-config";
+import { BaseClient } from "../base-client";
 
-export class ConsoleClient extends BaseConfig {
+export class ConsoleClient extends BaseClient {
   private readline: ReadLine.Interface;
   private pubSub: IPubSub;
   private commands: IConsoleCommands;

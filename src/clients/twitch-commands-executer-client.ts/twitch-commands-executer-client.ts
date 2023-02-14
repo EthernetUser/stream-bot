@@ -1,25 +1,26 @@
 import { IConfig, IPubSub, ITwitchCommands } from "../../types";
-import { BaseConfig } from "../base-config";
-import { getRandomSmile } from "../get-random-smile";
-import { twitchaCommands } from "./twitch-commands";
+import { BaseClient } from "../base-client";
 
-export class TwitchCommandsExecuterClient extends BaseConfig {
+export class TwitchCommandsExecuterClient extends BaseClient {
   private pubSub: IPubSub;
   private getRandomSmile: () => string;
   private twitchCommands: ITwitchCommands;
 
-  constructor({ config, pubSub }: { config: IConfig; pubSub: IPubSub }) {
+  constructor({
+    config,
+    pubSub,
+    getRandomSmile,
+    twitchCommands,
+  }: {
+    config: IConfig;
+    pubSub: IPubSub;
+    getRandomSmile: () => string;
+    twitchCommands: ITwitchCommands;
+  }) {
     super(config);
-
     this.pubSub = pubSub;
     this.getRandomSmile = getRandomSmile;
-    this.twitchCommands = twitchaCommands;
-
-    this.pubSub.subscribe(
-      this.getEventName(this.config.events.recieveTwitchCommand),
-      this.execute.bind(this),
-      this.uuid
-    );
+    this.twitchCommands = twitchCommands;
   }
 
   private validateCommand(command: string[]) {
@@ -133,5 +134,13 @@ export class TwitchCommandsExecuterClient extends BaseConfig {
       args: command.slice(2),
       event: this.getEventName(this.config.events.twitchSendMessage),
     });
+  }
+
+  public onCommandReceive() {
+    this.pubSub.subscribe(
+      this.getEventName(this.config.events.recieveTwitchCommand),
+      this.execute.bind(this),
+      this.uuid
+    );
   }
 }

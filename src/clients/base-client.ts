@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { IBaseConfigurable, IConfig } from "../types";
 
-export class BaseConfig implements IBaseConfigurable {
+export class BaseClient implements IBaseConfigurable {
   public config: IConfig;
   public uuid: string;
 

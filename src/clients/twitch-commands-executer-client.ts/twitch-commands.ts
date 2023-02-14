@@ -2,7 +2,7 @@ import config from "../../config";
 import { ITwitchCommands } from "../../types";
 import { getRandomInteger } from "../get-random-integer";
 
-export const twitchaCommands: ITwitchCommands = {
+export const twitchCommands: ITwitchCommands = {
   таймер: {
     args: {
       timeToWait: {

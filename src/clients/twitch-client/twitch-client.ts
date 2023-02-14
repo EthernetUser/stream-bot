@@ -6,12 +6,10 @@ import {
   IPubSub,
   ITwitchCommandParser,
 } from "../../types";
-import { BaseConfig } from "../base-config";
-import { getRandomSmile } from "../get-random-smile";
-import { TwitchCommandParser } from "./twitch-command-parser";
+import { BaseClient } from "../base-client";
 import chunk from "lodash.chunk";
 
-export class TwitchClient extends BaseConfig {
+export class TwitchClient extends BaseClient {
   public tmi: tmi.Client;
   private readonly autoAnswers: IAutoAnswers;
   private pubSub: IPubSub;
@@ -19,30 +17,26 @@ export class TwitchClient extends BaseConfig {
   private commandParser: ITwitchCommandParser;
 
   constructor({
+    tmiClient,
     config,
     autoAnswers,
     pubSub,
+    getRandomSmile,
+    commandParser,
   }: {
+    tmiClient: tmi.Client;
     config: IConfig;
     autoAnswers: IAutoAnswers;
     pubSub: IPubSub;
+    getRandomSmile: () => string;
+    commandParser: ITwitchCommandParser;
   }) {
     super(config);
-    this.tmi = new tmi.Client({
-      connection: {
-        reconnect: true,
-      },
-      identity: {
-        ...config.tmiConfig,
-      },
-      channels: Object.values(config.streamers).map(
-        (streamer) => streamer.nickName
-      ),
-    });
+    this.tmi = tmiClient;
     this.autoAnswers = autoAnswers;
     this.pubSub = pubSub;
     this.getRandomSmile = getRandomSmile;
-    this.commandParser = new TwitchCommandParser({ commandWord: "мяу" });
+    this.commandParser = commandParser;
 
     this.pubSub.subscribe(
       this.getEventName(this.config.events.configChange),
@@ -161,6 +155,6 @@ export class TwitchClient extends BaseConfig {
   }
 
   public async connect() {
-    this.tmi.connect();
+    await this.tmi.connect();
   }
 }

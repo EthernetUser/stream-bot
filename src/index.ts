@@ -1,42 +1,16 @@
-import { consoleCommands } from "./clients/console-client/console-commands";
-import { ConsoleClient } from "./clients/console-client/console-client";
-import { autoAnswers } from "./clients/twitch-client/auto-answers";
-import { TwitchClient } from "./clients/twitch-client/twitch-client";
-import config from "./config";
-import { PubSub } from "./infrastructure/pub-sub";
-import { IConfig } from "./types";
-import { TwitchCommandsExecuterClient } from "./clients/twitch-commands-executer-client.ts/twitch-commands-executer-client";
+import consoleClientFactory from "./clients/console-client/console-client-factory";
+import twitchClientFactory from "./clients/twitch-client/twitch-client-factory";
+import twitchCommandsExecuterClientFactory from "./clients/twitch-commands-executer-client.ts/twitch-commands-executer-client-factory";
 
-const baseConfig: IConfig = {
-  autoAnswersMode: true,
-  currentStreamer: "",
-  streamers: config.streamers,
-  tmiConfig: {
-    ...config.tmiCrendentials,
-  },
-  events: config.events,
-};
+const consoleClient = consoleClientFactory();
 
-const pubSub = new PubSub();
+const twitchClient = twitchClientFactory();
 
-const consoleClient = new ConsoleClient({
-  config: baseConfig,
-  pubSub,
-  commands: consoleCommands,
-});
-
-const twitchClient = new TwitchClient({
-  config: baseConfig,
-  autoAnswers,
-  pubSub,
-});
-
-new TwitchCommandsExecuterClient({
-  config: baseConfig,
-  pubSub,
-});
+const twitchCommandsExecuterClient = twitchCommandsExecuterClientFactory();
 
 const start = async () => {
+  twitchCommandsExecuterClient.onCommandReceive();
+
   await twitchClient.connect();
 
   twitchClient.onMessage();
