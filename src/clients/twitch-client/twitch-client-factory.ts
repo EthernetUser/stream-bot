@@ -8,6 +8,8 @@ import { autoAnswers } from "./auto-answers";
 import { TwitchClient } from "./twitch-client";
 import { TwitchCommandParser } from "./twitch-command-parser";
 
+const COMMAND_WORD = "мяу";
+
 const pubSub = new PubSub();
 
 const twitchClientFactory = () => {
@@ -27,7 +29,7 @@ const twitchClientFactory = () => {
     pubSub,
     autoAnswers: autoAnswers,
     getRandomSmile,
-    commandParser: new TwitchCommandParser({ commandWord: "мяу" }),
+    commandParser: new TwitchCommandParser({ commandWord: COMMAND_WORD }),
   });
 };
 
