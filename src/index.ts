@@ -1,5 +1,5 @@
 import { consoleClientFactory } from "./clients/console-client";
-import { twitchClientFactory } from "./clients/twitch-client";
+import twitchClientFactory from "./clients/twitch-client/twitch-client-factory";
 import { twitchCommandsExecuterClientFactory } from "./clients/twitch-commands-executer-client";
 
 const consoleClient = consoleClientFactory();

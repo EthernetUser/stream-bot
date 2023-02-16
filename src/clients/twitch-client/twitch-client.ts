@@ -86,7 +86,7 @@ export class TwitchClient extends BaseClient {
 
     console.log(`[channel: ${channel}] @${tags["display-name"]}: ${message}`);
 
-    const twitchCommand = this.commandParser.parse(message);
+    const twitchCommand = this.commandParser.parse(sanitizedMessage);
 
     if (twitchCommand) {
       const recieveTwitchCommandEventName = this.getEventName(
