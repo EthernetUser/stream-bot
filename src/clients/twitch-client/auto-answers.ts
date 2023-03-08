@@ -52,6 +52,11 @@ const juliaNames = [
   "юля 20 фпс апекс",
   "фантомка 0 10",
   "дает крест на себя",
+  "гном",
+  "дворф",
+  "не ходит в качалку(",
+  "качек наоборот",
+  "не выкупает рофлов",
 ];
 
 const kolyaNames = ["лох", "насосал на подписку", "насосал на модерку"];
@@ -79,7 +84,12 @@ export const autoAnswers: IAutoAnswers = {
   "саня го в доту": () => "не",
   "саня го в апекс": () => "эээм, я что похож наа... юлю?",
   "юля лох": ({ tags }) => `@${tags["display-name"]} согласен`,
-  "ира лох": ({ tags }) => `@${tags["display-name"]} тут не поспоришь`,
+  "ира лох": ({ tags }) => {
+    if (tags["display-name"] === nicknames.марк) {
+      return `@${tags["display-name"]} эээ, ты че свою девушку обзываешь`;
+    }
+    return `@${tags["display-name"]} тут не поспоришь`;
+  },
   "саня лох": answerToLoh,
   санялох: answerToLoh,
   "лох саня": answerToLoh,
@@ -89,7 +99,12 @@ export const autoAnswers: IAutoAnswers = {
   "саня тылох": answerToLoh,
   "саняты лох": answerToLoh,
   "лера лох": ({ tags }) => `@${tags["display-name"]} соглы`,
-  "марк лох": ({ tags }) => `@${tags["display-name"]} соглы`,
+  "марк лох": ({ tags }) => {
+    if (tags["display-name"] === nicknames.пливетик) {
+      return `@${tags["display-name"]} какой он лох? ты же его любишь)`;
+    }
+    return `@${tags["display-name"]} соглы`;
+  },
   "коля лох": ({ tags }) => `@${tags["display-name"]} соглы`,
   "сколько см у карины": ({ tags }) =>
     `@${tags["display-name"]} у карины ${getRandomInteger(3, 40)} см`,
@@ -97,6 +112,18 @@ export const autoAnswers: IAutoAnswers = {
     `@${tags["display-name"]} у леры ${getRandomInteger(3, 40)} см`,
   "сколько см у юли": ({ tags }) =>
     `@${tags["display-name"]} у юли ${getRandomInteger(3, 40)} см`,
+  "насколько я люблю юлю": ({ tags }) => {
+    return `@${tags["display-name"]} ты любишь юлю на ${getRandomInteger(
+      0,
+      100
+    )}%`;
+  },
+  "насколько я люблю лерку": ({ tags }) => {
+    return `@${tags["display-name"]} ты любишь лерку на ${getRandomInteger(
+      0,
+      100
+    )}%`;
+  },
   "сколько см у коли": ({ tags }) =>
     `@${tags["display-name"]} у коли ${getRandomInteger(-1, -69)} см`,
   "сколько у меня см": ({ tags }) =>

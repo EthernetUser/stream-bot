@@ -104,6 +104,26 @@ export const twitchCommands: ITwitchCommands = {
       );
     },
   },
+  "насколько-любит-юлю": {
+    args: {
+      target: {
+        type: "string",
+        description: "ник того, кого хочешь проверить",
+        isNickName: true,
+      },
+    },
+    execute({ pubSub, args: [target], event, channel }) {
+      const result = `${target} любит юлю на ${getRandomInteger(0, 100)}%`;
+      console.log(
+        `[channel: ${channel}] @${config.streamers.я.nickName}: (command) ${result}`
+      );
+      pubSub.publish(
+        event || "",
+        { channel, message: result, emoji: true },
+        ""
+      );
+    },
+  },
   ролл: {
     execute({ pubSub, nickName, event, channel }) {
       const randNum = getRandomInteger(0, 100);
