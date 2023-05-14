@@ -1,11 +1,6 @@
 import { IBaseConfigurable, IConsoleCommands } from "../../types";
 
 export const consoleCommands: IConsoleCommands = {
-  "!юля": (client: IBaseConfigurable) => {
-    client.changeConfig({
-      currentStreamer: client.config.streamers["юля"].nickName,
-    });
-  },
   "!лера": (client: IBaseConfigurable) => {
     client.changeConfig({
       currentStreamer: client.config.streamers["лера"].nickName,
